@@ -85,6 +85,8 @@ void draw()
 				}
 			}
 		}
+            hpDisplay.updateWithFighterHP(fighter.hp);
+
 		// 這地方應該加入Fighter 血量顯示UI
 		
 	}
@@ -136,4 +138,3 @@ void keyReleased(){
     }
   }
 }
-
