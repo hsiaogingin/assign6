@@ -32,7 +32,7 @@ class Fighter{
 	}
 
 	void shoot() {
-		
+   
 	}
 
 	void move(int direct) {
@@ -73,4 +73,14 @@ class Fighter{
 		}
 		return;
 	}
+void shoot(int i) {
+    bullet[i] = new Bullet(this.x,this.y);
+  }
+
+
+
+
+
+
 }
+
