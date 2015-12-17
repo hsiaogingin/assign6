@@ -34,15 +34,20 @@ Background bg;
 FlameMgr flameMgr;
 Treasure treasure;
 HPDisplay hpDisplay;
+Bullet bullet[]= new Bullet[5];
+
 
 boolean isMovingUp;
 boolean isMovingDown;
 boolean isMovingLeft;
 boolean isMovingRight;
+boolean [] bulletlimit = new boolean[5];
+
 
 int time;
 int wait = 4000;
-
+int n=0;
+int bulletnumber=0;
 
 
 void setup () {
@@ -76,7 +81,8 @@ void draw()
 				enemys[i].move();
 				enemys[i].draw();
 				if (enemys[i].isCollideWithFighter()) {
-					fighter.hpValueChange(-20);
+                          fighter.hpValueChange(-enemys[i].damage);			
+//  		fighter.hpValueChange(-20);
 					flameMgr.addFlame(enemys[i].x, enemys[i].y);
 					enemys[i]=null;
 				}
@@ -85,9 +91,29 @@ void draw()
 				}
 			}
 		}
-            hpDisplay.updateWithFighterHP(fighter.hp);
-
+            hpDisplay.updateWithFighterHP(fighter.hp);         
 		// 這地方應該加入Fighter 血量顯示UI
+
+
+      for (int i=0; i<5; ++i) {
+      if (bullet[i]!= null) {
+        bullet[i].move();
+        bullet[i].draw();
+        if (bullet[i].x<-31) {
+          bullet[i]=null;
+        }
+        for (int j=0; j<8; j++) {
+          if (enemys[j]!=null && enemys[j].isCollideWithBullet(i)) {
+            enemys[j].life--;
+            bullet[i]=null;
+            if (enemys[j].life == 0) {
+              flameMgr.addFlame(enemys[j].x, enemys[j].y);
+              enemys[j]=null;
+            }
+          }
+        }
+      }
+      }
 		
 	}
 	else if (state == GameState.END) {
@@ -125,6 +151,20 @@ void keyReleased(){
 		fighter.shoot();
 	}
   }
+  
+  if (key == ' ') {
+    if (state == GameState.PLAYING) {
+        if(bullet[0]!=null&&bullet[1]!=null&&bullet[2]!=null&&bullet[3]!=null&&bullet[4]!=null){
+        }else{
+          fighter.shoot(n);
+          n++;
+          n=n%5;
+        }
+
+  }
+  }
+
+
   if (key == ENTER) {
     switch(state) {
       case GameState.START:
